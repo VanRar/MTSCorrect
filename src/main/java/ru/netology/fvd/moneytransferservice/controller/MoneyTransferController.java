@@ -37,6 +37,4 @@ public class MoneyTransferController {
         Response response = ResponseUtil.getServerErrorResponse();
         return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
-
-
 }

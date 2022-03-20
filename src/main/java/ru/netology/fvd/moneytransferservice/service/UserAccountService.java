@@ -26,18 +26,21 @@ public class UserAccountService {
         User userTo = getUser(transferMoneyRequest.getCardToNumber());
 
         if (userFrom == null || userTo == null) {
-            return ResponseUtil.getResponse(HttpStatus.BAD_REQUEST, "Error input data 1 " + userFrom + "   из запроса getCardFromNumber" + userTo + "  " + transferMoneyRequest.getCardFromNumber(), 0);
+            return ResponseUtil.getResponse(HttpStatus.BAD_REQUEST, "Error input data", 0);
         }
 
         if (!(transferMoneyRequest.getCardFromNumber().equals(userFrom.getCardNumber()) &
                 transferMoneyRequest.getCardFromValidTill().equals(userFrom.getCardValid()) &
                 transferMoneyRequest.getCardFromCVV().equals(userFrom.getCardCVV())) &
                 transferMoneyRequest.getCardToNumber().equals(userTo.getCardNumber())) {
-            return ResponseUtil.getResponse(HttpStatus.BAD_REQUEST, "Error input data2", 0);
+            return ResponseUtil.getResponse(HttpStatus.BAD_REQUEST, "Error input data", 0);
         }
 
-        if (transferMoneyRequest.getAmount().getValue() > userFrom.getAmount().getValue())
+        if (transferMoneyRequest.getAmount().getValue() > userFrom.getAmount().getValue()) {
+
             return ResponseUtil.getResponse(HttpStatus.BAD_REQUEST, "Insufficient funds", 0);
+        }
+
 
         return ResponseUtil.getResponse(HttpStatus.OK, "Success validation", 0);
     }

@@ -3,7 +3,7 @@ package ru.netology.fvd.moneytransferservice.model;
 import java.util.Objects;
 
 public class Amount {
-    int value;
+    int value;//значения целые, два знака после запятой включительно (11.11 записывается как 1111)
     String currency;
 
     public Amount(int value, String currency) {
@@ -40,11 +40,3 @@ public class Amount {
         return Objects.hash(value, currency);
     }
 }
-//{"cardFromNumber": "1231323123132131",
-//"cardToNumber": "5456465465465465",
-//"cardFromCVV": "111",
-//"cardFromValidTill": "06/23",
-//"amount": {
-//"currency": "RUR",
-//"value": 12300}
-//}
