@@ -2,7 +2,6 @@ package ru.netology.fvd.moneytransferservice.model;
 
 import java.util.Objects;
 
-//сколько бабосов и валюта
 public class Amount {
     int value;
     String currency;
@@ -26,14 +25,6 @@ public class Amount {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    @Override
-    public String toString() {
-        return "Amount{" +
-                "value=" + value +
-                ", currency='" + currency + '\'' +
-                '}';
     }
 
     @Override

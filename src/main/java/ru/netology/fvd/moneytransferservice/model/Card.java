@@ -8,6 +8,10 @@ public class Card {
     private String cardCvv;
     private Amount amount;
 
+    public Card(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
     public Card(String cardNumber, String cardValidTill, String cardCvv, Amount amount) {
         this.cardNumber = cardNumber;
         this.cardValidTill = cardValidTill;

@@ -9,6 +9,7 @@ public class Verification {
         this.code = code;
     }
 
+
     public String getOperationId() {
         return operationId;
     }

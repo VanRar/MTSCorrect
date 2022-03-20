@@ -1,7 +1,9 @@
 package ru.netology.fvd.moneytransferservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.netology.fvd.moneytransferservice.model.Response;
 import ru.netology.fvd.moneytransferservice.model.Verification;
 import ru.netology.fvd.moneytransferservice.model.Operation;
 import ru.netology.fvd.moneytransferservice.model.Transaction;
@@ -13,20 +15,21 @@ public class MoneyTransferService {
     private final MoneyTransferRepository moneyTransferRepository;
 
     @Autowired
-    public MoneyTransferService(MoneyTransferRepository moneyTransferRepository){
+    public MoneyTransferService(MoneyTransferRepository moneyTransferRepository) {
         this.moneyTransferRepository = moneyTransferRepository;
     }
 
-    public Operation transfer(Transaction transaction){
+    public Response transfer(Transaction transaction) {
         //где будет валидироваться карта и перевод
-        System.out.println(transaction);
-
-
         // и фиксироваться факт проведения транзакции(деньги пока не переводятся).
-        return new Operation(moneyTransferRepository.saveTransaction(transaction));
+        if (moneyTransferRepository.getCards().containsKey(transaction.getCardFrom()) && moneyTransferRepository.getCards().containsKey(transaction.getCardTo()) && (transaction.getAmount().getValue() <= moneyTransferRepository.getCards().get(transaction.getCardFrom()).getAmount().getValue())) {
+            new Operation(moneyTransferRepository.saveTransaction(transaction));
+
+        }
+        return null;
     }
 
-    public Operation confirmOperation(Verification verification){
+    public Operation confirmOperation(Verification verification) {
         return moneyTransferRepository.confirmOperation(verification);
     }
 }

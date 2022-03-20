@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class Transaction {
     private final Card cardFrom;
-    private String cardToNumber;
+    private Card cardTo;
     private Amount amount;
     private Operation operation;
 
@@ -15,7 +15,7 @@ public class Transaction {
                        String cardToNumber,
                        Amount amount) {
         this.cardFrom = new Card(cardFromNumber,cardFromValidTill,cardFromCvv,amount);//по счету криво, но как есть, по другому на данном этапе нарна никак
-        this.cardToNumber = cardToNumber;
+        this.cardTo= new Card(cardToNumber);
         this.amount = amount;
     }
 
@@ -23,8 +23,8 @@ public class Transaction {
         return cardFrom;
     }
 
-    public String getCardToNumber() {
-        return cardToNumber;
+    public Card getCardTo() {
+        return cardTo;
     }
 
     public Amount getAmount() {
@@ -44,20 +44,21 @@ public class Transaction {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Transaction that = (Transaction) o;
-        return cardFrom.equals(that.cardFrom) && cardToNumber.equals(that.cardToNumber) && amount.equals(that.amount);
+        return Objects.equals(cardFrom, that.cardFrom) && Objects.equals(cardTo, that.cardTo) && Objects.equals(amount, that.amount) && Objects.equals(operation, that.operation);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cardFrom, cardToNumber, amount);
+        return Objects.hash(cardFrom, cardTo, amount, operation);
     }
 
     @Override
     public String toString() {
         return "Transaction{" +
                 "cardFrom=" + cardFrom +
-                ", cardToNumber='" + cardToNumber + '\'' +
+                ", cardTo=" + cardTo +
                 ", amount=" + amount +
+                ", operation=" + operation +
                 '}';
     }
 }
