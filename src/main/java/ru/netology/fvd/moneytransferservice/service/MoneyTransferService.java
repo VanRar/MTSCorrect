@@ -1,35 +1,42 @@
 package ru.netology.fvd.moneytransferservice.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.netology.fvd.moneytransferservice.model.Response;
-import ru.netology.fvd.moneytransferservice.model.Verification;
-import ru.netology.fvd.moneytransferservice.model.Operation;
-import ru.netology.fvd.moneytransferservice.model.Transaction;
-import ru.netology.fvd.moneytransferservice.repository.MoneyTransferRepository;
+import ru.netology.fvd.moneytransferservice.model.*;
 
-//бизнес логика
+
 @Service
 public class MoneyTransferService {
-    private final MoneyTransferRepository moneyTransferRepository;
+    private final OperationService operationService;
+    private final UserAccountService userAccountService;
 
-    @Autowired
-    public MoneyTransferService(MoneyTransferRepository moneyTransferRepository) {
-        this.moneyTransferRepository = moneyTransferRepository;
+    public MoneyTransferService(OperationService operationService, UserAccountService userAccountService) {
+        this.operationService = operationService;
+        this.userAccountService = userAccountService;
     }
 
-    public Response transfer(Transaction transaction) {
-        //где будет валидироваться карта и перевод
-        // и фиксироваться факт проведения транзакции(деньги пока не переводятся).
-        if (moneyTransferRepository.getCards().containsKey(transaction.getCardFrom()) && moneyTransferRepository.getCards().containsKey(transaction.getCardTo()) && (transaction.getAmount().getValue() <= moneyTransferRepository.getCards().get(transaction.getCardFrom()).getAmount().getValue())) {
-            new Operation(moneyTransferRepository.saveTransaction(transaction));
+    public ResponseEntity<Response> createTransferMoneyOperation(TransferMoneyRequest transferMoneyRequest) {
+        Response response = userAccountService.validateTransferMoneyRequest(transferMoneyRequest);
 
+        if (!HttpStatus.BAD_REQUEST.equals(response.getHttpStatus())) {
+            Operation operation = operationService.createOperation(transferMoneyRequest);
+            response.setOperationId(operation.getOperationId());
         }
-        return null;
+        return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
 
-    public Operation confirmOperation(Verification verification) {
-        return moneyTransferRepository.confirmOperation(verification);
+    public ResponseEntity<Response> confirmTransferMoneyOperation(ConfirmOperationRequest confirmOperationRequest) {
+        Response response = operationService.confirmOperationRequest(confirmOperationRequest);
+
+        if (!HttpStatus.BAD_REQUEST.equals(response.getHttpStatus())) {
+            String operationId = confirmOperationRequest.getOperationId();
+            Operation operation = operationService.getOperationData(operationId);
+
+            response = userAccountService.transferMoney(operation);
+            operationService.removeOperation(operationId);
+        }
+        return ResponseEntity.status(response.getHttpStatus()).body(response);
     }
 }

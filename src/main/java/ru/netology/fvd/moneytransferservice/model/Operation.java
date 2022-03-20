@@ -1,13 +1,16 @@
 package ru.netology.fvd.moneytransferservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Operation {
     private String operationId;
     private String code;
     private TransferMoneyRequest transferMoneyRequest;
-
-    public Operation(String operationId) {
-
-    }
 
     public Operation setOperationId(String operationId) {
         this.operationId = operationId;

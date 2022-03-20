@@ -1,49 +1,19 @@
 package ru.netology.fvd.moneytransferservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class User {
     private String cardNumber;
     private String cardValid;
     private String cardCVV;
-    private volatile int cardBalance;
-    private String cardCurrency;
+    private Amount amount;
 
-    public String getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public String getCardValid() {
-        return cardValid;
-    }
-
-    public void setCardValid(String cardValid) {
-        this.cardValid = cardValid;
-    }
-
-    public String getCardCVV() {
-        return cardCVV;
-    }
-
-    public void setCardCVV(String cardCVV) {
-        this.cardCVV = cardCVV;
-    }
-
-    public int getCardBalance() {
-        return cardBalance;
-    }
-
-    public void setCardBalance(int cardBalance) {
-        this.cardBalance = cardBalance;
-    }
-
-    public String getCardCurrency() {
-        return cardCurrency;
-    }
-
-    public void setCardCurrency(String cardCurrency) {
-        this.cardCurrency = cardCurrency;
+    public void setAmount(int amount) {
+        this.getAmount().setValue(amount);
     }
 }

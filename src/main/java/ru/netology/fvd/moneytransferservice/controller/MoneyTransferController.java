@@ -1,18 +1,17 @@
 package ru.netology.fvd.moneytransferservice.controller;
 
-import org.apache.tomcat.util.http.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.netology.fvd.moneytransferservice.exceptions.ErrorInputData;
-import ru.netology.fvd.moneytransferservice.exceptions.ErrorTransfer;
 import ru.netology.fvd.moneytransferservice.model.*;
 import ru.netology.fvd.moneytransferservice.service.MoneyTransferService;
+import ru.netology.fvd.moneytransferservice.util.ResponseUtil;
 
+@Slf4j
 @RestController
 public class MoneyTransferController {
 

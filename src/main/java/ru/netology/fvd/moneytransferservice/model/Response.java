@@ -14,7 +14,6 @@ public class Response {
     private String operationId;
     private String message;
     private int id;
-
     public Response setHttpStatus(HttpStatus httpStatus) {
         this.httpStatus = httpStatus;
         return this;
@@ -34,5 +33,4 @@ public class Response {
         this.id = id;
         return this;
     }
-
 }
